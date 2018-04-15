@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/LCAPI.iml" filepath="$PROJECT_DIR$/.idea/modules/LCAPI.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/LCAPI_main.iml" filepath="$PROJECT_DIR$/.idea/modules/LCAPI_main.iml" group="LCAPI" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/LCAPI_test.iml" filepath="$PROJECT_DIR$/.idea/modules/LCAPI_test.iml" group="LCAPI" />
+    </modules>
+  </component>
+</project>
