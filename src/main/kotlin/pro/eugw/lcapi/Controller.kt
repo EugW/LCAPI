@@ -38,4 +38,6 @@ class Controller {
         return Class(ObjectMapper().readTree(schedule), ObjectMapper().readTree(bells))
     }
 
+
+
 }
