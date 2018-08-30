@@ -13,15 +13,15 @@ class Controller {
     fun classes(@RequestParam(value = "lang", defaultValue = "en") lang: String): AvailableClasses {
         val arrayList = ArrayList<CommonClass>()
         val dirs = File("classes")
-        dirs.listFiles().forEach {
-            val schoolId = it.name
+        dirs.listFiles().forEach { file ->
+            val schoolId = file.name
             val schoolName = with(ObjectMapper().readTree(File(File("info", schoolId), "school-info.json"))) {
                 if (this.has(lang))
                     this[lang].asText()
                 else
                     this["en"].asText()
             }
-            it.listFiles().forEach {
+            file.listFiles().forEach {
                 val string = it.name.split(".")
                 arrayList.add(CommonClass(string[0], string[1], string[2], schoolId, schoolName))
             }
@@ -37,7 +37,5 @@ class Controller {
             return Class(ObjectMapper().createObjectNode(), ObjectMapper().createObjectNode())
         return Class(ObjectMapper().readTree(schedule), ObjectMapper().readTree(bells))
     }
-
-
 
 }
