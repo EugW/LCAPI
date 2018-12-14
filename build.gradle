@@ -23,8 +23,6 @@ repositories {
     mavenCentral()
 }
 
-mainClassName = "MainKt"
-
 jar {
     manifest {
         attributes('Main-Class': 'pro.eugw.lcapi.ApplicationKt')
