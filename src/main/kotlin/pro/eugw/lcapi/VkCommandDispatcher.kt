@@ -24,14 +24,22 @@ class VkCommandDispatcher {
         when (cmd) {
             "/register" -> {
                 registerVk(from)
-                if (argMap.containsKey("username") && argMap.containsKey("password")) {
+                if (argMap.containsKey("username") && argMap.containsKey("password"))
                     updateCredentialsVk(from, argMap["username"]!!, argMap["password"]!!)
-                }
             }
             "/unregister" -> {
                 unregisterVk(from)
             }
+            "/marks" -> {
+                if (argMap.containsKey("count"))
+                    marksVk(from, argMap["count"]!!.toInt())
+            }
         }
+    }
+
+    private fun marksVk(id: String, count: Int) {
+        println("kek")
+
     }
 
     private fun registerVk(id: String) {

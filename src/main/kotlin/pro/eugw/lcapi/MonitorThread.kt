@@ -62,7 +62,6 @@ class MonitorThread(kusername: String, kpassword: String, private val fcmtoken: 
         })
     }
 
-
     override fun run() {
         super.run()
         val sdf = SimpleDateFormat("yyyy-MM-dd")
@@ -88,9 +87,9 @@ class MonitorThread(kusername: String, kpassword: String, private val fcmtoken: 
                                 override fun onSuccess(response: Response) {
                                     val obj = JsonParser().parse(response.body()!!.string()).asJsonObject["subject"].asJsonObject["name"].asString
                                     if (id != null)
-                                        sendVkNotification(obj, it.asJsonObject["value"].asString)
+                                        sendVkNotification(obj, it.asJsonObject["value"].asString, it.asJsonObject["date"].asString.split("T")[0])
                                     if (fcmtoken != null)
-                                        sendAndroidNotification(obj, it.asJsonObject["value"].asString)
+                                        sendAndroidNotification(obj, it.asJsonObject["value"].asString, it.asJsonObject["date"].asString.split("T")[0])
                                 }
 
                                 override fun onFail(response: Response) {}
@@ -106,17 +105,18 @@ class MonitorThread(kusername: String, kpassword: String, private val fcmtoken: 
         }
     }
 
-    private fun sendAndroidNotification(subject: String, mark: String) {
+    private fun sendAndroidNotification(subject: String, mark: String, date: String) {
         val message = Message.builder()
                 .putData("subject", subject)
                 .putData("mark", mark)
+                .putData("date", date)
                 .setToken(fcmtoken)
                 .build()
         FirebaseMessaging.getInstance().send(message)
     }
 
-    private fun sendVkNotification(subject: String, mark: String) {
-        val message = "Новая оценка по предмету $subject $mark"
+    private fun sendVkNotification(subject: String, mark: String, date: String) {
+        val message = "Новая оценка по предмету $subject $mark выставлена $date"
         queue.addRequest(Request.Builder().url("https://api.vk.com/method/messages.send?user_id=$id&random_id=${Random.nextInt()}&message=$message&access_token=$groupToken&v=5.92").build(), object : RequestQueue.Listener {
             override fun onSuccess(response: Response) {}
             override fun onFail(response: Response) {}

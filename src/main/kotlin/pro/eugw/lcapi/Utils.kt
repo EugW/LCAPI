@@ -4,10 +4,33 @@ import com.google.auth.oauth2.GoogleCredentials
 import com.google.firebase.FirebaseApp
 import com.google.firebase.FirebaseOptions
 import com.google.gson.JsonParser
-import java.io.File
-import java.io.FileInputStream
-import java.io.FileWriter
-import java.io.PrintWriter
+import java.io.*
+import java.util.*
+import kotlin.concurrent.thread
+
+fun initConsole() {
+    thread(true) {
+        val console = Scanner(System.`in`)
+        while (true) {
+            val str = console.next()
+            println(str)
+            when (str) {
+                "/testVk" -> {
+                    val from = console.next()
+                    println(from)
+                    var sArg = ""
+                    var t = ""
+                    while (t != "") {
+                        t = console.next()
+                        sArg += t
+                    }
+                    println(sArg.replace("\n", ""))
+                    dispatcher.dispatchCommand(sArg, from)
+                }
+            }
+        }
+    }
+}
 
 fun initDB() {
     val androidDBFile = File("androidDB.json")

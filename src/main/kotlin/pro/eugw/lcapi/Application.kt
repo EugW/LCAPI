@@ -29,15 +29,15 @@ var secret = ""
 var groupToken = ""
 
 fun main(args: Array<String>) {
+    initConsole()
     initDB()
     initVkSecrets()
     initFCM()
-    //prepareMonitor()
     initMonitor()
     embeddedServer(Netty, 46479) {
         routing {
             get("/") {
-                call.respondText("My Example Blog", ContentType.Text.Any)
+                call.respondText("LCAPI Home page\nhttps://vk.com/brin_apps\nhttps://play.google.com/store/apps/details?id=pro.eugw.lessoncountdown\nv1.0", ContentType.Text.Any)
             }
             get("/classes") {
                 val array = JsonArray()

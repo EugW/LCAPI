@@ -29,6 +29,7 @@ class RequestQueue : Thread() {
                         it.listener.onSuccess(res)
                     else
                         it.listener.onFail(res)
+                    res.close()
                     sleep(3000)
                 }
             queue.clear()
