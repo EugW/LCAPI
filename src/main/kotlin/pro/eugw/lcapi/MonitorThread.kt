@@ -77,7 +77,6 @@ class MonitorThread(kusername: String, kpassword: String, private val fcmtoken: 
                         firstTime = false
                         array = arr
                         PrintWriter(FileWriter(File(dataDir, "$personId.json")), true).println(arr)
-                        return
                     }
                     val newMarks = JsonArray()
                     arr.forEach {
@@ -91,7 +90,6 @@ class MonitorThread(kusername: String, kpassword: String, private val fcmtoken: 
                                     if (fcmtoken != null)
                                         sendAndroidNotification(obj, it.asJsonObject["value"].asString, it.asJsonObject["date"].asString.split("T")[0])
                                 }
-
                                 override fun onFail(response: Response) {}
                             })
                         }

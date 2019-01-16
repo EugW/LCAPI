@@ -3,6 +3,7 @@
     <words>
       <w>fcmtoken</w>
       <w>gtfo</w>
+      <w>intsvdmrk</w>
       <w>kcred</w>
       <w>kpassword</w>
       <w>ktoken</w>
@@ -10,6 +11,7 @@
       <w>kusername</w>
       <w>lcapi</w>
       <w>lcsvc</w>
+      <w>sleeptime</w>
     </words>
   </dictionary>
 </component>

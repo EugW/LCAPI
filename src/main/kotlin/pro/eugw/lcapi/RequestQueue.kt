@@ -7,14 +7,13 @@ import okhttp3.Response
 class RequestQueue : Thread() {
 
     private var queue = ArrayList<ReqLis>()
-    private var newQueue = ArrayList<ReqLis>()
     private val client = OkHttpClient()
-    private var firstStart = true
+    private var first = true
 
     fun addRequest(request: Request, listener: Listener) {
-        newQueue.add(ReqLis(request, listener))
-        if (firstStart) {
-            firstStart = false
+        queue.add(ReqLis(request, listener))
+        if (first) {
+            first = false
             start()
         }
     }
@@ -22,20 +21,19 @@ class RequestQueue : Thread() {
     override fun run() {
         super.run()
         while (true) {
-            if (queue.isNotEmpty())
-                queue.forEach {
-                    val res = client.newCall(it.request).execute()
-                    if (res.isSuccessful)
-                        it.listener.onSuccess(res)
-                    else
-                        it.listener.onFail(res)
-                    res.close()
-                    sleep(3000)
-                }
-            queue.clear()
-            queue.addAll(newQueue)
-            newQueue.clear()
+            if (queue.isNotEmpty()) {
+                val ooo = queue[0]
+                val res = client.newCall(ooo.request).execute()
+                if (res.isSuccessful)
+                    ooo.listener.onSuccess(res)
+                else
+                    ooo.listener.onFail(res)
+                res.close()
+                queue.remove(ooo)
+            }
+            sleep(3000)
         }
+
     }
 
     interface Listener {

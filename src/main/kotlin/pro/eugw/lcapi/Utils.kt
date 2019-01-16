@@ -12,21 +12,25 @@ fun initConsole() {
     thread(true) {
         val console = Scanner(System.`in`)
         while (true) {
-            val str = console.next()
-            println(str)
-            when (str) {
-                "/testVk" -> {
-                    val from = console.next()
-                    println(from)
-                    var sArg = ""
-                    var t = ""
-                    while (t != "") {
-                        t = console.next()
-                        sArg += t
+            try {
+                val str = console.next()
+                println(str)
+                when (str) {
+                    "/testVk" -> {
+                        val from = console.next()
+                        println(from)
+                        var sArg = ""
+                        var t = ""
+                        while (t != "") {
+                            t = console.next()
+                            sArg += t
+                        }
+                        println(sArg.replace("\n", ""))
+                        dispatcher.dispatchCommand(sArg, from)
                     }
-                    println(sArg.replace("\n", ""))
-                    dispatcher.dispatchCommand(sArg, from)
                 }
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
         }
     }
@@ -59,9 +63,9 @@ fun initFCM() {
 
 fun initMonitor() {
     androidDB.forEach {
-        MonitorThread(it.asJsonObject["kusername"].asString, it.asJsonObject["kpassword"].asString, it.asJsonObject["fcmtoken"].asString, null)
+        monitorThreads.add(MonitorThread(it.asJsonObject["kusername"].asString, it.asJsonObject["kpassword"].asString, it.asJsonObject["fcmtoken"].asString, null))
     }
     vkDB.forEach {
-        MonitorThread(it.asJsonObject["kusername"].asString, it.asJsonObject["kpassword"].asString, null, it.asJsonObject["id"].asString)
+        monitorThreads.add(MonitorThread(it.asJsonObject["kusername"].asString, it.asJsonObject["kpassword"].asString, null, it.asJsonObject["id"].asString))
     }
 }

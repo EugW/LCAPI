@@ -20,6 +20,7 @@ import java.io.File
 import java.io.FileWriter
 import java.io.PrintWriter
 import java.util.*
+import kotlin.collections.ArrayList
 
 var androidDB = JsonArray()
 var vkDB = JsonArray()
@@ -27,6 +28,7 @@ var queue = RequestQueue()
 var dispatcher = VkCommandDispatcher()
 var secret = ""
 var groupToken = ""
+var monitorThreads = ArrayList<MonitorThread>()
 
 fun main(args: Array<String>) {
     initConsole()
