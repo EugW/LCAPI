@@ -3,6 +3,7 @@ package pro.eugw.lcapi
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
+import java.lang.Exception
 
 class RequestQueue : Thread() {
 
@@ -23,12 +24,16 @@ class RequestQueue : Thread() {
         while (true) {
             if (queue.isNotEmpty()) {
                 val ooo = queue[0]
-                val res = client.newCall(ooo.request).execute()
-                if (res.isSuccessful)
-                    ooo.listener.onSuccess(res)
-                else
-                    ooo.listener.onFail(res)
-                res.close()
+                try {
+                    val res = client.newCall(ooo.request).execute()
+                    if (res.isSuccessful)
+                        ooo.listener.onSuccess(res)
+                    else
+                        ooo.listener.onFail(res)
+                    res.close()
+                } catch (e: Exception) {
+                    println(ooo.request.url())
+                }
                 queue.remove(ooo)
             }
             sleep(3000)

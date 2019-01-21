@@ -70,6 +70,7 @@ class MonitorThread(kusername: String, kpassword: String, private val fcmtoken: 
             val to = sdf.format(calendar.time)
             calendar.add(Calendar.MONTH, -1)
             val from = sdf.format(calendar.time)
+            var completed = false
             queue.addRequest(Request.Builder().url("https://api.kundelik.kz/v1/persons/$personId/schools/$schoolId/marks/$from/$to?access_token=$token").build(), object : RequestQueue.Listener {
                 override fun onSuccess(response: Response) {
                     val arr = JsonParser().parse(response.body()!!.string()).asJsonArray
@@ -89,6 +90,8 @@ class MonitorThread(kusername: String, kpassword: String, private val fcmtoken: 
                                         sendVkNotification(obj, it.asJsonObject["value"].asString, it.asJsonObject["date"].asString.split("T")[0])
                                     if (fcmtoken != null)
                                         sendAndroidNotification(obj, it.asJsonObject["value"].asString, it.asJsonObject["date"].asString.split("T")[0])
+                                    if (arr.last() == it)
+                                        completed = true
                                 }
                                 override fun onFail(response: Response) {}
                             })
@@ -99,6 +102,8 @@ class MonitorThread(kusername: String, kpassword: String, private val fcmtoken: 
                 }
                 override fun onFail(response: Response) {}
             })
+            while (completed)
+                sleep(1000)
             sleep(600000)
         }
     }
