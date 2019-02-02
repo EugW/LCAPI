@@ -21,7 +21,9 @@ import java.io.FileWriter
 import java.io.PrintWriter
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.concurrent.thread
 
+var props = Properties()
 var androidDB = JsonArray()
 var vkDB = JsonArray()
 var queue = RequestQueue()
@@ -30,13 +32,14 @@ var secret = ""
 var groupToken = ""
 var monitorThreads = ArrayList<MonitorThread>()
 
-fun main(args: Array<String>) {
+fun main() {
+    initProperties()
     initConsole()
     initDB()
     initVkSecrets()
     initFCM()
     initMonitor()
-    embeddedServer(Netty, 46479) {
+    embeddedServer(Netty, props.getProperty("server.port", "46479").toInt()) {
         routing {
             get("/") {
                 call.respondText("LCAPI Home page\nhttps://vk.com/brin_apps\nhttps://play.google.com/store/apps/details?id=pro.eugw.lessoncountdown\nv1.0", ContentType.Text.Any)
@@ -161,10 +164,10 @@ fun main(args: Array<String>) {
                     val token = UUID.randomUUID().toString().replace("-", "")
                     reg.addProperty("token", token)
                     androidDB.add(reg)
-                    PrintWriter(FileWriter("androidDB.json"), true).println(androidDB)
                     val res = JsonObject()
                     res.addProperty("token", token)
                     call.respondText(res.toString())
+                    thread(true) { PrintWriter(FileWriter("androidDB.json"), true).println(androidDB) }
                 }
             }
             get("/test") {
@@ -180,8 +183,9 @@ fun main(args: Array<String>) {
                     val obj = joe.asJsonObject
                     val registrationToken = obj["fcmtoken"].asString
                     val message = Message.builder()
-                            .putData("subject", UUID.randomUUID().toString().substring(4))
-                            .putData("mark", UUID.randomUUID().toString().substring(4))
+                            .putData("subject", "Test subject")
+                            .putData("mark", "Test mark")
+                            .putData("date", "Test date")
                             .setToken(registrationToken)
                             .build()
                     FirebaseMessaging.getInstance().send(message)

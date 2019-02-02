@@ -3,7 +3,6 @@ package pro.eugw.lcapi
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
-import java.lang.Exception
 
 class RequestQueue : Thread() {
 
@@ -36,9 +35,8 @@ class RequestQueue : Thread() {
                 }
                 queue.remove(ooo)
             }
-            sleep(3000)
+            sleep(0, 1)
         }
-
     }
 
     interface Listener {

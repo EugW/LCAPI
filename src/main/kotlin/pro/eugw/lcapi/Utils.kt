@@ -8,6 +8,10 @@ import java.io.*
 import java.util.*
 import kotlin.concurrent.thread
 
+fun initProperties() {
+    props.load(FileReader("app.properties"))
+}
+
 fun initConsole() {
     thread(true) {
         val console = Scanner(System.`in`)

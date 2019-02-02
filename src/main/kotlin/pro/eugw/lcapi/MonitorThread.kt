@@ -104,7 +104,7 @@ class MonitorThread(kusername: String, kpassword: String, private val fcmtoken: 
             })
             while (completed)
                 sleep(1000)
-            sleep(600000)
+            sleep(props.getProperty("checkDelay", "600000").toLong())
         }
     }
 
