@@ -207,7 +207,6 @@ fun main() {
                     return@post
                 }
                 call.respondText("ok")
-                println(call.receiveText())
                 if (parsed["type"].asString == "message_new") {
                     val obj = parsed["object"].asJsonObject
                     if (obj["text"].asString.startsWith("/"))

@@ -35,7 +35,7 @@ class RequestQueue : Thread() {
                 }
                 queue.remove(ooo)
             }
-            sleep(0, 1)
+            sleep(0)
         }
     }
 
