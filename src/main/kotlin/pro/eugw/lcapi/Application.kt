@@ -19,6 +19,7 @@ import io.ktor.server.netty.Netty
 import java.io.File
 import java.io.FileWriter
 import java.io.PrintWriter
+import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.concurrent.thread
@@ -34,7 +35,6 @@ var monitorThreads = ArrayList<MonitorThread>()
 
 fun main() {
     initProperties()
-    initConsole()
     initDB()
     initVkSecrets()
     initFCM()
@@ -185,7 +185,7 @@ fun main() {
                     val message = Message.builder()
                             .putData("subject", "Test subject")
                             .putData("mark", "Test mark")
-                            .putData("date", "Test date")
+                            .putData("date", SimpleDateFormat("yyyy-MM-dd").format(Date()))
                             .setToken(registrationToken)
                             .build()
                     FirebaseMessaging.getInstance().send(message)

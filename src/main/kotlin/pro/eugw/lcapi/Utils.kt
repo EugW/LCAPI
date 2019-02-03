@@ -5,39 +5,9 @@ import com.google.firebase.FirebaseApp
 import com.google.firebase.FirebaseOptions
 import com.google.gson.JsonParser
 import java.io.*
-import java.util.*
-import kotlin.concurrent.thread
 
 fun initProperties() {
     props.load(FileReader("app.properties"))
-}
-
-fun initConsole() {
-    thread(true) {
-        val console = Scanner(System.`in`)
-        while (true) {
-            try {
-                val str = console.next()
-                println(str)
-                when (str) {
-                    "/testVk" -> {
-                        val from = console.next()
-                        println(from)
-                        var sArg = ""
-                        var t = ""
-                        while (t != "") {
-                            t = console.next()
-                            sArg += t
-                        }
-                        println(sArg.replace("\n", ""))
-                        dispatcher.dispatchCommand(sArg, from)
-                    }
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
-    }
 }
 
 fun initDB() {
